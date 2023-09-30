@@ -1,0 +1,30 @@
+#searchbar {
+  border-radius: 25px;
+  width: 800px;
+  height: 35px;
+  margin-left: 20px;
+}
+#logo {
+  justify-content: flex-start;
+}
+#searcharrow {
+  background-color: grey;
+  border-radius: 25px;
+}
+#profile {
+  margin-left: 20px;
+}
+#cart {
+}
+#links {
+  flex-wrap: nowrap;
+}
+nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  min-height: 10vh;
+  background-color: rgb(29, 155, 218);
+  color: white;
+}

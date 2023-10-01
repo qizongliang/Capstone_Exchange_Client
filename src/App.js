@@ -1,6 +1,6 @@
 import React from 'react'
 import './App.css'
-import Navbar from './components/navbar'
+import PrimarySearchAppBar from './components/navbar'
 import User from './pages/user/user'
 import Shoppingcart from './pages/shoppingcart/shoppingcart'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -9,7 +9,7 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <PrimarySearchAppBar />
 
         <Routes>
           <Route path="/" Component={Home} />

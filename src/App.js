@@ -1,6 +1,7 @@
 import React from 'react'
 import './App.css'
 import PrimarySearchAppBar from './components/navbar'
+import Home from './pages/home/home'
 import User from './pages/user/user'
 import Shoppingcart from './pages/shoppingcart/shoppingcart'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
@@ -20,10 +21,10 @@ function App() {
     </Router>
   )
 }
-const Home = () => (
-  <div>
-    <h1>Home Page</h1>
-  </div>
-)
+// const Home = () => (
+//   <div>
+//     <h1>Home Page</h1>
+//   </div>
+// )
 
 export default App

@@ -1,10 +1,17 @@
-import React from 'react'
+import React from "react"
+import "./home.css"
+import SliderHome from "./slider"
 
-function home() {
+const Home = () => {
   return (
-    <div>
-      <h1>home</h1>
-    </div>
+    <>
+      <section className='home'>
+        <div className='container d_flex'>
+            <SliderHome />
+          </div>
+      </section>
+    </>
   )
 }
-export default home
+
+export default Home

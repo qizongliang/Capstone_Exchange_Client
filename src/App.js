@@ -4,6 +4,7 @@ import PrimarySearchAppBar from './components/navbar'
 import Home from './pages/home/home'
 import User from './pages/user/user'
 import Shoppingcart from './pages/shoppingcart/shoppingcart'
+import Footer from './components/footer/Footer'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
           <Route path="/shoppingcart" Component={Shoppingcart} />
         </Routes>
       </div>
+      <Footer/>
     </Router>
   )
 }

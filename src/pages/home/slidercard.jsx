@@ -11,6 +11,7 @@ const SlideCard = () => {
         slidesToShow: 1,
         slidesToScroll: 1,
         autoplay: true,
+        
       }
       return (
         <>

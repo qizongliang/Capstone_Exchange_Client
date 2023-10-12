@@ -4,21 +4,26 @@ import PrimarySearchAppBar from './components/navbar'
 import Home from './pages/home/home'
 import User from './pages/user/user'
 import Shoppingcart from './pages/shoppingcart/shoppingcart'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
-    <Router>
-      <div className="App">
-        <PrimarySearchAppBar />
+    <>
+      <Router>
+        <div className="App">
+          <PrimarySearchAppBar />
 
-        <Routes>
-          <Route path="/" Component={Home} />
-          <Route path="/user" Component={User} />
-          <Route path="/shoppingcart" Component={Shoppingcart} />
-        </Routes>
-      </div>
-    </Router>
+          <Routes>
+            <Route path="/" Component={Home} />
+            <Route path="/user" Component={User} />
+            <Route path="/shoppingcart" Component={Shoppingcart} />
+          </Routes>
+        </div>
+      </Router>
+      <ToastContainer />
+    </>
   )
 }
 // const Home = () => (

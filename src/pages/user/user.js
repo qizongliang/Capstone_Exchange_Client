@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router'
 
 const User = () => {
   const dispatch = useDispatch()
-  const {} = useSelector((store) => store.auth)
 
   const handleSubmit = (event) => {
     event.preventDefault()

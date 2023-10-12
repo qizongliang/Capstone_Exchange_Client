@@ -163,7 +163,7 @@ export default function PrimarySearchAppBar() {
             </Link>
           </Typography>
 
-          <Search>
+          {/* <Search>
             <SearchIconWrapper>
               <SearchIcon />
             </SearchIconWrapper>
@@ -171,7 +171,7 @@ export default function PrimarySearchAppBar() {
               placeholder="Search…"
               inputProps={{ 'aria-label': 'search' }}
             />
-          </Search>
+          </Search> */}
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <Link

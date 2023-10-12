@@ -25,7 +25,7 @@ function RegisterUser() {
       toast.error(message)
     }
     if (isSuccess || user) {
-      navigate('/')
+      navigate('/profile')
     }
     dispatch(reset())
   }, [user, isError, isSuccess, message, navigate, dispatch])

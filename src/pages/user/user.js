@@ -13,8 +13,6 @@ import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router'
 
 const User = () => {
-  const dispatch = useDispatch()
-
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)

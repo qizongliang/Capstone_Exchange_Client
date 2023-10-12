@@ -9,16 +9,6 @@ const Footer = () => {
           <div className='box'>
             <h1>Exchange</h1>
             <p>Textarea</p>
-            {/* <div className='icon d_flex'>
-              <div className='img d_flex'>
-                <i class='fa-brands fa-google-play'></i>
-                <span>Google Play</span>
-              </div>
-              <div className='img d_flex'>
-                <i class='fa-brands fa-app-store-ios'></i>
-                <span>App Store</span>
-              </div>
-            </div> */}
           </div>
 
           <div className='box'>

@@ -46,6 +46,9 @@ function RegisterUser() {
       password: data.get('password'),
     })
   }
+  const moveToSignup = () => {
+    navigate('/user')
+  }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -96,8 +99,8 @@ function RegisterUser() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="#" variant="body2">
-                {'login here'}
+              <Link href="#" variant="body2" onClick={moveToSignup}>
+                {'Already have a account? login here'}
               </Link>
             </Grid>
           </Grid>

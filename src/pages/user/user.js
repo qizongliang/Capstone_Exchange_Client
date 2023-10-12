@@ -8,11 +8,17 @@ import Box from '@mui/material/Box'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Typography from '@mui/material/Typography'
 import Container from '@mui/material/Container'
-import RegisterUser from './register/registerUser'
+import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router'
+import Profile from '../profile/profile'
 
 const User = () => {
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { user, isLoading, isError, isSuccess, message } = useSelector(
+    (store) => store.auth,
+  )
+
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -22,9 +28,15 @@ const User = () => {
     })
   }
 
+  const moveToRegister = () => {
+    navigate('/registeruser')
+  }
+
+  if (user) {
+    return <Profile />
+  }
   return (
     <div>
-      <RegisterUser />
       <Container component="main" maxWidth="xs">
         <Box
           sx={{
@@ -73,8 +85,8 @@ const User = () => {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
-                  {"Don't have an account? Sign Up"}
+                <Link href="#" variant="body2" onClick={moveToRegister}>
+                  {"Don't have an account? Register"}
                 </Link>
               </Grid>
             </Grid>

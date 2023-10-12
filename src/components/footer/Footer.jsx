@@ -1,27 +1,17 @@
-import React from "react"
-import "./style.css"
+import React from 'react'
+import './style.css'
 
 const Footer = () => {
   return (
     <>
       <footer>
-        <div className='container grid2'>
-          <div className='box'>
+        <div className="container grid2">
+          <div className="box">
             <h1>Exchange</h1>
             <p>Textarea</p>
-            {/* <div className='icon d_flex'>
-              <div className='img d_flex'>
-                <i class='fa-brands fa-google-play'></i>
-                <span>Google Play</span>
-              </div>
-              <div className='img d_flex'>
-                <i class='fa-brands fa-app-store-ios'></i>
-                <span>App Store</span>
-              </div>
-            </div> */}
           </div>
 
-          <div className='box'>
+          <div className="box">
             <h2>About Us</h2>
             <ul>
               <li>Careers</li>
@@ -31,7 +21,7 @@ const Footer = () => {
               <li>Privacy Policy</li>
             </ul>
           </div>
-          <div className='box'>
+          <div className="box">
             <h2>Customer Care</h2>
             <ul>
               <li>Help Center </li>
@@ -41,7 +31,7 @@ const Footer = () => {
               <li>Returns & Refunds </li>
             </ul>
           </div>
-          <div className='box'>
+          <div className="box">
             <h2>Contact Us</h2>
             <ul>
               <li>695 Park Ave, New York, NY 10065</li>

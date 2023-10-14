@@ -11,6 +11,9 @@ import Container from '@mui/material/Container'
 import { useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Profile from '../profile/profile'
+import { toast } from 'react-toastify'
+import { login, reset } from '../../redux/slice/authSlice'
+import { useState, useEffect } from 'react'
 
 const User = () => {
   const dispatch = useDispatch()
@@ -18,14 +21,25 @@ const User = () => {
   const { user, isLoading, isError, isSuccess, message } = useSelector(
     (store) => store.auth,
   )
+  useEffect(() => {
+    if (isError) {
+      toast.error(message)
+    }
+    if (isSuccess || user) {
+      navigate('/profile')
+    }
+    dispatch(reset())
+  }, [user, isError, isSuccess, message, navigate, dispatch])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    console.log({
+
+    const userData = {
       email: data.get('email'),
       password: data.get('password'),
-    })
+    }
+    dispatch(login(userData))
   }
 
   const moveToRegister = () => {

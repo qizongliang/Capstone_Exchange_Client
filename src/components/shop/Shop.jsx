@@ -2,7 +2,7 @@ import React from "react"
 import ShopCart from "./ShopItem"
 import "./style.css"
 
-const Shop = (shopItems) => {
+const Shop = ({shopItems,addToCar}) => {
   return (
     <>
       <section className='shop background'>
@@ -17,7 +17,7 @@ const Shop = (shopItems) => {
               </div>
             </div>
             <div className='product-content  grid1'>
-                <ShopCart/>
+                <ShopCart shopItems={shopItems} addToCar={addToCar}/>
             </div>
           </div>
         </div>

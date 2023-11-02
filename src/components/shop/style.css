@@ -136,7 +136,6 @@
   display: flex;
   gap: 10px;
   align-items: center;
-  margin-top: 250px;
 }
 
 .add-to-cart {
@@ -152,5 +151,20 @@
 }
 
 .add-to-cart:hover {
+  background-color: black;
+}
+
+.add-to-cart-button {
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+  background-color: gray;
+  color: #fff;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.add-to-cart-button:hover {
   background-color: black;
 }

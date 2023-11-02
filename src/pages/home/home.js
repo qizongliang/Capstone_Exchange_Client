@@ -5,9 +5,7 @@ import TopCate from "../../components/top/TopCate"
 import ADS from "../../components/ads/ads"
 import Shop from "../../components/shop/Shop"
 
-
-
-const Home = () => {
+const Home = ({shopItems,addToCar}) => {
   return (
     <>
       <section className='home'>
@@ -17,7 +15,7 @@ const Home = () => {
       </section>
       <TopCate/>
       <ADS/>
-      <Shop/>
+      <Shop shopItems={shopItems} addToCar={addToCar}/>
     </>
   )
 }

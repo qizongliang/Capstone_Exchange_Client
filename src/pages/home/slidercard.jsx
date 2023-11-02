@@ -1,6 +1,7 @@
 import React from "react"
 import Sdata from "./sliderdata"
 import Slider from "react-slick"
+
 import "slick-carousel/slick/slick.css"
 import "slick-carousel/slick/slick-theme.css"
 
@@ -26,7 +27,7 @@ const SlideCard = () => {
                       <button className='btn-primary'>Visit</button>
                     </div>
                     <div className='right'>
-                      <img src={value.cover} alt='' />
+                      <img src={value.img} alt='' style={{height:'500px',width:'750px'}}/>
                     </div>
                   </div>
                 </>

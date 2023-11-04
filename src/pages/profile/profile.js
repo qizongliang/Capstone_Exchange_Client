@@ -11,6 +11,14 @@ import Grid from '@mui/material/Grid'
 import { Typography } from '@mui/material'
 import { blue } from '@mui/material/colors'
 import { useState, useEffect } from 'react'
+import Table from '@mui/material/Table'
+import TableBody from '@mui/material/TableBody'
+import TableCell from '@mui/material/TableCell'
+import TableContainer from '@mui/material/TableContainer'
+import TableHead from '@mui/material/TableHead'
+import TableRow from '@mui/material/TableRow'
+import mdata from '../../assets/mockItems'
+import mockItems from '../../assets/mockItems'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -25,7 +33,6 @@ function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((store) => store.auth)
-
   const onLogout = () => {
     dispatch(logout())
     dispatch(reset())
@@ -51,6 +58,7 @@ function Profile() {
   useEffect(() => {
     fetchMe()
   }, [])
+
   return (
     <div>
       <Typography variant="h2" align="center">
@@ -106,6 +114,71 @@ function Profile() {
           </Item>
         </Grid>
       </Grid>
+      <Typography variant="h2" align="center">
+        ORDER HISTORY
+      </Typography>
+      {console.log(JSON.parse(userData.orderhistory))}
+      {JSON.parse(userData.orderhistory).map((order, orderIndex) => {
+        console.log(order.orderdate)
+        console.log(order.orderitemsid)
+        console.log(order.orderitemsamt)
+        console.log(order.ordertotal['$numberDecimal'])
+
+        return (
+          <>
+            <Typography variant="h3" align="center">
+              ORDER {orderIndex + 1}
+            </Typography>
+            <TableContainer component={Paper}>
+              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                <TableHead>
+                  <TableRow>
+                    <TableCell align="center" colSpan={3}>
+                      Details
+                    </TableCell>
+                    <TableCell align="right">Price</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell>Desc</TableCell>
+                    <TableCell align="right">Qty.</TableCell>
+                    <TableCell align="right">Unit</TableCell>
+                    <TableCell align="right">Sum</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {order.orderitemsid.map((itemId, itemIndex) => (
+                    <TableRow key={itemId}>
+                      <TableCell>{mockItems[itemId - 1].title}</TableCell>
+                      <TableCell align="right">
+                        {order.orderitemsamt[itemIndex]}
+                      </TableCell>
+                      <TableCell align="right">
+                        {mockItems[itemId - 1].price}
+                      </TableCell>
+                      <TableCell align="right">
+                        {mockItems[itemId - 1].price *
+                          order.orderitemsamt[itemIndex]}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  <TableRow>
+                    <TableCell rowSpan={3} />
+                    <TableCell colSpan={2}>Date</TableCell>
+                    <TableCell align="right">{order.orderdate}</TableCell>
+                  </TableRow>
+                  <TableRow>
+                    <TableCell colSpan={2}>Total</TableCell>
+                    <TableCell align="right">
+                      {order.ordertotal['$numberDecimal']}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </>
+        )
+      })}
+
       <Button variant="outlined" onClick={onLogout}>
         logout
       </Button>

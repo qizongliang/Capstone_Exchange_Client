@@ -33,6 +33,7 @@ function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((store) => store.auth)
+  const [userHistory, setUserHistory] = useState([])
   const onLogout = () => {
     dispatch(logout())
     dispatch(reset())
@@ -49,6 +50,7 @@ function Profile() {
       .then((res) => {
         console.log(res.data)
         setUserData(res.data)
+        setUserHistory(JSON.parse(res.data.orderhistory))
       })
       .catch((err) => {
         console.log(err)
@@ -117,8 +119,8 @@ function Profile() {
       <Typography variant="h2" align="center">
         ORDER HISTORY
       </Typography>
-      {console.log(JSON.parse(userData.orderhistory))}
-      {JSON.parse(userData.orderhistory).map((order, orderIndex) => {
+      {console.log(userHistory)}
+      {userHistory.map((order, orderIndex) => {
         console.log(order.orderdate)
         console.log(order.orderitemsid)
         console.log(order.orderitemsamt)

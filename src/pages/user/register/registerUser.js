@@ -35,9 +35,12 @@ function RegisterUser() {
     const data = new FormData(event.currentTarget)
 
     const userData = {
-      name: data.get('email'),
+      firstname: data.get('firstname'),
+      lastname: data.get('lastname'),
+      address: data.get('address'),
       email: data.get('email'),
       password: data.get('password'),
+      phonenumber: data.get('phonenumber'),
     }
     dispatch(register(userData))
 
@@ -83,6 +86,38 @@ function RegisterUser() {
             label="Password"
             type="password"
             id="password"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="firstname"
+            label="First Name"
+            name="firstname"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="lastname"
+            label="Last Name"
+            name="lastname"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="address"
+            label="Address"
+            name="address"
+          />
+          <TextField
+            margin="normal"
+            required
+            fullWidth
+            id="phonenumber"
+            label="Phone Number"
+            name="phonenumber"
           />
           <Button
             type="submit"

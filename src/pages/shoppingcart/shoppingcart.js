@@ -145,14 +145,14 @@ function Shoppingcart({
               style={{ textAlign: 'center', justifyContent: 'center' }}
             >
               <h1>Are you sure?</h1>
-              <button
+              <button className='add-to-cart' style={{marginLeft:'39%'}}
                 onClick={() => {
                   checkoutItemToBackend()
                   deleteAll()
                   toggleModal()
                 }}
               >
-                check
+                CheckOut
               </button>
             </div>
             <button className="close-modal" onClick={toggleModal}>

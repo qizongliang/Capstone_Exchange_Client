@@ -51,7 +51,7 @@ function App() {
     <>  
       <Router>
         <div className="App">
-          <PrimarySearchAppBar />
+          <PrimarySearchAppBar CartItem={CartItem}/>
 
           <Routes>
             <Route path="/" element={<Home shopItems={shopItems} addToCar={addToCar}/>}/>

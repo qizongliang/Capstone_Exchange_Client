@@ -55,10 +55,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }))
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar({CartItem}) {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null)
-
   const isMenuOpen = Boolean(anchorEl)
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl)
 
@@ -124,7 +123,7 @@ export default function PrimarySearchAppBar() {
             aria-label="show 4 carted item"
             color="inherit"
           >
-            <Badge badgeContent={4} color="error">
+            <Badge badgeContent={CartItem.length} color="error">
               <ShoppingCartIcon />
             </Badge>
           </IconButton>
@@ -183,7 +182,7 @@ export default function PrimarySearchAppBar() {
                 aria-label="show 4 cart item"
                 color="inherit"
               >
-                <Badge badgeContent={4} color="error">
+                <Badge badgeContent={CartItem.length} color="error">
                   <ShoppingCartIcon />
                 </Badge>
               </IconButton>

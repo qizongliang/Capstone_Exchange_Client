@@ -33,7 +33,8 @@ function Profile() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
   const { user } = useSelector((store) => store.auth)
-  const [userHistory, setUserHistory] = useState([])
+  const [userBuyHistory, setUserBuyHistory] = useState([])
+
   const onLogout = () => {
     dispatch(logout())
     dispatch(reset())
@@ -41,6 +42,7 @@ function Profile() {
   }
   const fetchMe = async () => {
     var jwtToken = JSON.parse(sessionStorage.getItem('user')).token
+
     const res = await axios
       .get('/api/userAccount/me', {
         headers: {
@@ -50,15 +52,33 @@ function Profile() {
       .then((res) => {
         console.log(res.data)
         setUserData(res.data)
-        setUserHistory(JSON.parse(res.data.orderhistory))
       })
       .catch((err) => {
         console.log(err)
       })
   }
+  const fetchBuyHistory = async () => {
+    var jwtToken = JSON.parse(sessionStorage.getItem('user')).token
+
+    const res = await axios
+      .get('/api/orderHistory/getAllBuyOrder', {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data)
+        setUserBuyHistory(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    console.log(res)
+  }
 
   useEffect(() => {
     fetchMe()
+    fetchBuyHistory()
   }, [])
 
   return (
@@ -119,13 +139,9 @@ function Profile() {
       <Typography variant="h2" align="center">
         ORDER HISTORY
       </Typography>
-      {console.log(userHistory)}
-      {userHistory.map((order, orderIndex) => {
+      {console.log(userBuyHistory)}
+      {userBuyHistory.map((order, orderIndex) => {
         console.log(order.orderdate)
-        console.log(order.orderitemsid)
-        console.log(order.orderitemsamt)
-        console.log(order.ordertotal['$numberDecimal'])
-
         return (
           <>
             <Typography variant="h3" align="center">
@@ -148,18 +164,15 @@ function Profile() {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {order.orderitemsid.map((itemId, itemIndex) => (
-                    <TableRow key={itemId}>
-                      <TableCell>{mockItems[itemId - 1].title}</TableCell>
+                  {order.orderItems.map((item, itemIndex) => (
+                    <TableRow>
+                      <TableCell>{item.title}</TableCell>
+                      <TableCell align="right">{item.amount}</TableCell>
                       <TableCell align="right">
-                        {order.orderitemsamt[itemIndex]}
+                        {item.price['$numberDecimal']}
                       </TableCell>
                       <TableCell align="right">
-                        {mockItems[itemId - 1].price}
-                      </TableCell>
-                      <TableCell align="right">
-                        {mockItems[itemId - 1].price *
-                          order.orderitemsamt[itemIndex]}
+                        {item.price['$numberDecimal'] * item.amount}
                       </TableCell>
                     </TableRow>
                   ))}

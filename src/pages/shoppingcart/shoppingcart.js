@@ -4,7 +4,12 @@ import axios from 'axios'
 
 // addOrderToBackend
 const addOrderToBackend = async (userData) => {
-  const response = await axios.post('/api/userAccount/addorder', userData)
+  const response = await axios.post('/api/orderHistory/addOrder', userData)
+  console.log(response)
+}
+// add Seller OrderToBackend
+const addSellOrderToBackend = async (sellData) => {
+  const response = await axios.post('/api/sellHistory/addSellOrder', sellData)
   console.log(response)
 }
 
@@ -19,7 +24,10 @@ function Shoppingcart({
     //
     const orderitemsidarr = []
     const orderitemsamtarr = []
+
     var email = JSON.parse(sessionStorage.getItem('user')).email
+    var address = JSON.parse(sessionStorage.getItem('user')).address
+
     CartItem.map((item) => {
       orderitemsidarr.push(item.id)
       orderitemsamtarr.push(item.qty)
@@ -39,16 +47,17 @@ function Shoppingcart({
 
     const userData = {
       email: email,
-      ordertotal: totalPrice,
       orderitemsid: orderitemsid,
       orderitemsamt: orderitemsamt,
     }
-    addOrderToBackend(userData)
+    const sellData = {
+      orderitemsid: orderitemsid,
+      orderitemsamt: orderitemsamt,
+      address: address,
+    }
 
-    console.log(totalPrice)
-    console.log(orderitemsamt)
-    console.log(orderitemsid)
-    console.log(email)
+    addOrderToBackend(userData)
+    addSellOrderToBackend(sellData)
   }
 
   const [modal, setModal] = useState(false)
@@ -145,7 +154,9 @@ function Shoppingcart({
               style={{ textAlign: 'center', justifyContent: 'center' }}
             >
               <h1>Are you sure?</h1>
-              <button className='add-to-cart' style={{marginLeft:'39%'}}
+              <button
+                className="add-to-cart"
+                style={{ marginLeft: '39%' }}
                 onClick={() => {
                   checkoutItemToBackend()
                   deleteAll()

@@ -17,8 +17,6 @@ import TableCell from '@mui/material/TableCell'
 import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
-import mdata from '../../assets/mockItems'
-import mockItems from '../../assets/mockItems'
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -34,6 +32,9 @@ function Profile() {
   const dispatch = useDispatch()
   const { user } = useSelector((store) => store.auth)
   const [userBuyHistory, setUserBuyHistory] = useState([])
+
+  const [userSellHistory, setUserSellHistory] = useState([])
+  const [historySwitch, setHistorySwitch] = useState(true)
 
   const onLogout = () => {
     dispatch(logout())
@@ -75,10 +76,30 @@ function Profile() {
       })
     console.log(res)
   }
+  const fetchSellHistory = async () => {
+    var jwtToken = JSON.parse(sessionStorage.getItem('user')).token
+
+    const res = await axios
+      .get('/api/sellHistory/getAllSellOrder', {
+        headers: {
+          Authorization: `Bearer ${jwtToken}`,
+        },
+      })
+      .then((res) => {
+        console.log(res.data)
+        setUserSellHistory(res.data)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+    console.log(res)
+  }
 
   useEffect(() => {
     fetchMe()
     fetchBuyHistory()
+    fetchSellHistory()
+    setHistorySwitch(true)
   }, [])
 
   return (
@@ -136,63 +157,139 @@ function Profile() {
           </Item>
         </Grid>
       </Grid>
-      <Typography variant="h2" align="center">
-        ORDER HISTORY
-      </Typography>
-      {console.log(userBuyHistory)}
-      {userBuyHistory.map((order, orderIndex) => {
-        console.log(order.orderdate)
-        return (
-          <>
-            <Typography variant="h3" align="center">
-              ORDER {orderIndex + 1}
-            </Typography>
-            <TableContainer component={Paper}>
-              <Table sx={{ minWidth: 700 }} aria-label="spanning table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center" colSpan={3}>
-                      Details
-                    </TableCell>
-                    <TableCell align="right">Price</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell>Desc</TableCell>
-                    <TableCell align="right">Qty.</TableCell>
-                    <TableCell align="right">Unit</TableCell>
-                    <TableCell align="right">Sum</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {order.orderItems.map((item, itemIndex) => (
-                    <TableRow>
-                      <TableCell>{item.title}</TableCell>
-                      <TableCell align="right">{item.amount}</TableCell>
-                      <TableCell align="right">
-                        {item.price['$numberDecimal']}
-                      </TableCell>
-                      <TableCell align="right">
-                        {item.price['$numberDecimal'] * item.amount}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                  <TableRow>
-                    <TableCell rowSpan={3} />
-                    <TableCell colSpan={2}>Date</TableCell>
-                    <TableCell align="right">{order.orderdate}</TableCell>
-                  </TableRow>
-                  <TableRow>
-                    <TableCell colSpan={2}>Total</TableCell>
-                    <TableCell align="right">
-                      {order.ordertotal['$numberDecimal']}
-                    </TableCell>
-                  </TableRow>
-                </TableBody>
-              </Table>
-            </TableContainer>
-          </>
-        )
-      })}
+      <Grid container spacing={2} marginBottom={2}>
+        <Grid align="right" item xs={6}>
+          <Button variant="contained" onClick={() => setHistorySwitch(true)}>
+            Buy Order
+          </Button>
+        </Grid>
+        <Grid align="left" item xs={6}>
+          <Button variant="contained" onClick={() => setHistorySwitch(false)}>
+            Sell Order
+          </Button>
+        </Grid>
+      </Grid>
+      {historySwitch && (
+        <Typography variant="h2" align="center">
+          BUY ORDER HISTORY
+        </Typography>
+      )}
+      {!historySwitch && (
+        <Typography variant="h2" align="center">
+          SELL ORDER HISTORY
+        </Typography>
+      )}
+
+      {historySwitch
+        ? userBuyHistory.map((order, orderIndex) => {
+            console.log(order.orderdate)
+            return (
+              <>
+                <Typography variant="h3" align="center">
+                  ORDER {orderIndex + 1}
+                </Typography>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center" colSpan={3}>
+                          Details
+                        </TableCell>
+                        <TableCell align="right">Price</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Desc</TableCell>
+                        <TableCell align="right">Qty.</TableCell>
+                        <TableCell align="right">Unit</TableCell>
+                        <TableCell align="right">Sum</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {order.orderItems.map((item, itemIndex) => (
+                        <TableRow>
+                          <TableCell>{item.title}</TableCell>
+                          <TableCell align="right">{item.amount}</TableCell>
+                          <TableCell align="right">
+                            {item.price['$numberDecimal']}
+                          </TableCell>
+                          <TableCell align="right">
+                            {item.price['$numberDecimal'] * item.amount}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      <TableRow>
+                        <TableCell rowSpan={3} />
+                        <TableCell colSpan={2}>Date</TableCell>
+                        <TableCell align="right">{order.orderdate}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={2}>Total</TableCell>
+                        <TableCell align="right">
+                          {order.ordertotal['$numberDecimal']}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )
+          })
+        : userSellHistory.map((order, orderIndex) => {
+            return (
+              <>
+                <Typography variant="h3" align="center">
+                  ORDER {orderIndex + 1}
+                </Typography>
+                <TableContainer component={Paper}>
+                  <Table sx={{ minWidth: 700 }} aria-label="spanning table">
+                    <TableHead>
+                      <TableRow>
+                        <TableCell align="center" colSpan={3}>
+                          Details
+                        </TableCell>
+                        <TableCell align="right">Price</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell>Desc</TableCell>
+                        <TableCell align="right">Qty.</TableCell>
+                        <TableCell align="right">Unit</TableCell>
+                        <TableCell align="right">Sum</TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {order.sellItems.map((item, itemIndex) => (
+                        <TableRow>
+                          <TableCell>{item.title}</TableCell>
+                          <TableCell align="right">{item.amount}</TableCell>
+                          <TableCell align="right">
+                            {item.price['$numberDecimal']}
+                          </TableCell>
+                          <TableCell align="right">
+                            {item.price['$numberDecimal'] * item.amount}
+                          </TableCell>
+                        </TableRow>
+                      ))}
+                      <TableRow>
+                        <TableCell rowSpan={3} />
+                        <TableCell colSpan={2}>Date</TableCell>
+                        <TableCell align="right">{order.orderdate}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={2}>Address</TableCell>
+                        <TableCell align="right">{order.address}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={2}>Total</TableCell>
+                        <TableCell align="right">
+                          {order.ordertotal['$numberDecimal']}
+                        </TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </>
+            )
+          })}
 
       <Button variant="outlined" onClick={onLogout}>
         logout

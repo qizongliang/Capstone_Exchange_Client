@@ -90,7 +90,7 @@ function App() {
 
             <Route path="/user" element={<User />} />
             <Route path="/registeruser" element={<RegisterUser />} />
-            <Route path="/profile" element={<Profile />} />
+            <Route path="/profile" element={<Profile shopItems={shopItems}/>} />
 
             <Route
               path="/shoppingcart"

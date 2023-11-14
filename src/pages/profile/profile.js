@@ -18,6 +18,11 @@ import TableContainer from '@mui/material/TableContainer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 
+import Container from '@mui/material/Container'
+import Avatar from '@mui/material/Avatar'
+import TextField from '@mui/material/TextField'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -26,7 +31,13 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }))
 
-function Profile() {
+const addItemsToBackend = async(itemsData)=>{
+  const response = await axios.post('/api/items/add', itemsData)  
+  console.log(response);
+}
+
+
+function Profile({shopItems}) {
   const [userData, setUserData] = useState([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -35,6 +46,29 @@ function Profile() {
 
   const [userSellHistory, setUserSellHistory] = useState([])
   const [historySwitch, setHistorySwitch] = useState(true)
+  
+  const [modal, setModal] = useState(false)
+  const toggleModal = () => {
+    setModal(!modal);
+  }
+
+  const addItems=(event)=>{
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
+    let int_id = 1+parseInt(shopItems[shopItems.length-1].id);
+
+    const itemsData = {
+      id: int_id.toString(),
+      title: data.get('title'),
+      price: data.get('price'),
+      img: data.get('img'),
+      selleremail: userData.email,
+    }
+    // console.log(itemsData);
+    addItemsToBackend(itemsData);
+    toggleModal();
+  }
+
 
   const onLogout = () => {
     dispatch(logout())
@@ -157,15 +191,20 @@ function Profile() {
           </Item>
         </Grid>
       </Grid>
-      <Grid container spacing={2} marginBottom={2}>
-        <Grid align="right" item xs={6}>
+      <Grid container spacing={2} marginBottom={2} justifyContent="center">
+        <Grid item xs={0}>
           <Button variant="contained" onClick={() => setHistorySwitch(true)}>
             Buy Order
           </Button>
         </Grid>
-        <Grid align="left" item xs={6}>
+        <Grid item xs={0}>
           <Button variant="contained" onClick={() => setHistorySwitch(false)}>
             Sell Order
+          </Button>
+        </Grid>
+        <Grid item xs={0}>
+          <Button variant="contained" onClick={() => toggleModal()}>
+            AddItems
           </Button>
         </Grid>
       </Grid>
@@ -290,7 +329,69 @@ function Profile() {
               </>
             )
           })}
-
+        {modal && (
+          <div className="modal">
+            <div onClick={toggleModal} className="overlay"></div>
+            <div className="modal-content" style={{height:'70%'}}>
+            <Container component="main" maxWidth="xs">
+              <Box
+                sx={{
+                  marginTop: 8,
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                }}
+              >
+                <Avatar sx={{ m: 1, bgcolor: 'primary.main' }}>
+                  <LockOutlinedIcon />
+                </Avatar>
+                <Typography component="h1" variant="h5">
+                  AddItems
+                </Typography>
+                <Box component="form" onSubmit={addItems}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="title"
+                    label="Item Name"
+                    name="title"
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="price"
+                    label="Price"
+                    type="price"
+                    id="price"
+                  />
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="img"
+                    label="image url"
+                    name="img"
+                  />
+                  <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    sx={{ mt: 3, mb: 2 }}
+                    // onClick={toggleModal}
+                  >
+                    submit
+                  </Button>
+                  </Box>
+                </Box>
+              </Container>
+              <button className="close-modal" onClick={toggleModal}>
+                X
+              </button>
+            </div>
+          </div>
+        )}
       <Button variant="outlined" onClick={onLogout}>
         logout
       </Button>
